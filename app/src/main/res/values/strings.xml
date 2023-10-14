@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PharmaFiesta</string>
+    <string name="get_started_btn">Get Started</string>
 </resources>
