@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">PharmaFiesta</string>
     <string name="get_started_btn">Get Started</string>
+    <string name="signup_btn">sign up</string>
+    <string name="username_text_field_placeholder">username</string>
+    <string name="email_text_field_placeholder">email</string>
+    <string name="password_text_field_placeholder">password</string>
+    <string name="phone_text_field_placeholder">phone</string>
+    <string name="submit_btn">Submit</string>
+    <string name="do_u_have_account">Already have an account? </string>
+    <string name="sign_in_text_btn">Sign in</string>
 </resources>
