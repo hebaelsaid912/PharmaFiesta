@@ -1,8 +1,7 @@
-package com.example.pharmafiesta.ui.signup
+package com.example.pharmafiesta.ui.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pharmafiesta.R
-import com.example.pharmafiesta.ui.Screen
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
@@ -48,7 +46,7 @@ import com.example.pharmafiesta.ui.theme.LightGray
 private const val TAG = "SignupScreenUi"
 
 @Composable
-fun SignupScreenUi (navController: NavController) {
+fun SignInScreenUi (navController: NavController) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
@@ -66,20 +64,19 @@ fun SignupScreenUi (navController: NavController) {
         }
         item {
             Text(
-                text = stringResource(id = R.string.signup_btn),
+                text = stringResource(id = R.string.sign_in_text_btn),
                 color = Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
         }
         item {
-            SignUpForm()
+            SignInForm()
         }
         item {
             Column(modifier = Modifier.padding(horizontal = 30.dp)) {
                 Button(
                     onClick = {
-                        navController.navigate(Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -92,22 +89,32 @@ fun SignupScreenUi (navController: NavController) {
                     Text(text = stringResource(id = R.string.submit_btn))
                 }
             }
-            Row(modifier = Modifier.padding(30.dp)) {
-                Text(
-                    text = stringResource(id = R.string.do_u_have_account),
-                    color = Black,
-                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    fontSize = 16.sp
-                )
-                Text(
-                    text = stringResource(id = R.string.sign_in_text_btn),
-                    color = Green59,
-                    fontFamily = FontFamily(Font(R.font.roboto_bold)),
-                    fontSize = 16.sp,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}")
-                    }
-                )
+        }
+        item {
+            Text(
+                text = stringResource(id = R.string.sign_in_with),
+                color = Black,
+                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                fontSize = 16.sp
+            )
+        }
+        item {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                IconButton(onClick = {  }) {
+                    Icon(
+                        painter = painterResource(id =  R.drawable.facebook),
+                        contentDescription = "",
+                        tint = Color.Unspecified
+                    )
+                }
+                IconButton(onClick = {  }) {
+                    Icon(
+                        painter = painterResource(id =  R.drawable.google),
+                        contentDescription = "",
+                        tint = Color.Unspecified
+                    )
+                }
+
             }
         }
     }
@@ -115,37 +122,12 @@ fun SignupScreenUi (navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpForm() {
-
-    val userName = remember { mutableStateOf("") }
-    val phoneNumber = remember { mutableStateOf("") }
+fun SignInForm() {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(30.dp), verticalArrangement = Arrangement.spacedBy(26.dp)) {
-        TextField(
-            value = userName.value,
-            onValueChange = {
-                userName.value = it
-            },
-            leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.username), contentDescription = "")
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.username_text_field_placeholder), color = Color.Gray)
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                containerColor = Color.Transparent
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .clip(RoundedCornerShape(30.dp))
-                .background(LightGray)
-        )
         TextField(
             value = email.value,
             onValueChange = {
@@ -155,7 +137,10 @@ fun SignUpForm() {
                 Icon(painter = painterResource(id = R.drawable.email), contentDescription = "")
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.email_text_field_placeholder), color = Color.Gray)
+                Text(
+                    text = stringResource(id = R.string.email_text_field_placeholder),
+                    color = Color.Gray
+                )
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
@@ -164,31 +149,6 @@ fun SignUpForm() {
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .clip(RoundedCornerShape(30.dp))
-                .background(LightGray)
-        )
-        TextField(
-            value = phoneNumber.value,
-            onValueChange = {
-                phoneNumber.value = it
-            },
-            leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.phone), contentDescription = "")
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.phone_text_field_placeholder), color = Color.Gray)
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                containerColor = Color.Transparent
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Phone
             ),
             modifier = Modifier
                 .fillMaxWidth()
