@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pharmafiesta.ui.signin.SignInScreenUi
-import com.example.pharmafiesta.ui.signup.SignupScreenUi
+import com.example.pharmafiesta.ui.auth.signin.SignInScreenUi
+import com.example.pharmafiesta.ui.auth.signup.SignupScreenUi
 import com.example.pharmafiesta.ui.splash.SplashScreenUi
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 
