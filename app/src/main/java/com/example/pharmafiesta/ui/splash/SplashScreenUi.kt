@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.pharmafiesta.R
-import com.example.pharmafiesta.ui.Screen
+import com.example.pharmafiesta.ui.auth.AuthScreensRoutes
 import com.example.pharmafiesta.ui.theme.Green59
 
 private const val TAG = "SplashScreenUi"
@@ -43,7 +43,7 @@ fun SplashScreenUi (navController: NavController) {
         Spacer(modifier = Modifier.padding(77.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}")
+                navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}")
             },
             modifier = Modifier
                 .fillMaxWidth()

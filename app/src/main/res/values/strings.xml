@@ -10,4 +10,9 @@
     <string name="do_u_have_account">Already have an account? </string>
     <string name="sign_in_text_btn">Sign in</string>
     <string name="sign_in_with"> sign in with </string>
+    <string name="bottomNav_home_title"> Home </string>
+    <string name="bottomNav_profile_title"> Profile </string>
+    <string name="bottomNav_notification_title"> Notification </string>
+    <string name="bottomNav_bills_title"> Bills </string>
+    <string name="bottomNav_chat_title"> Chat </string>
 </resources>

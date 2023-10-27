@@ -1,5 +1,6 @@
-package com.example.pharmafiesta.ui
+package com.example.pharmafiesta.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -12,15 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pharmafiesta.ui.signin.SignInScreenUi
-import com.example.pharmafiesta.ui.signup.SignupScreenUi
+import com.example.pharmafiesta.ui.auth.signin.SignInScreenUi
+import com.example.pharmafiesta.ui.auth.signup.SignupScreenUi
+import com.example.pharmafiesta.ui.home.BottomNavigationActivity
 import com.example.pharmafiesta.ui.splash.SplashScreenUi
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 
 
-private const val TAG = "MainActivity"
+private const val TAG = "AuthActivity"
 
-class MainActivity : ComponentActivity() {
+
+class AuthActivity  : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,7 +33,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupAppRouteNavigation()
+                    SetupAppRouteNavigation(){
+                        startActivity(Intent(this,BottomNavigationActivity::class.java))
+                        this.finish()
+                    }
                 }
             }
         }
@@ -38,20 +44,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun SetupAppRouteNavigation() {
+private fun SetupAppRouteNavigation(onSignInButtonClicked: () -> Unit) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.SplashScreenRoute.route) {
-        composable(route = Screen.SplashScreenRoute.route) {
+    NavHost(
+        navController = navController,
+        startDestination = AuthScreensRoutes.SplashScreenRoute.route
+    ) {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SplashScreen")
             SplashScreenUi(navController = navController)
         }
-        composable(route = Screen.SplashScreenRoute.route + "/" + Screen.SignupScreenRoute.route) {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/" + AuthScreensRoutes.SignupScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SignupScreen")
             SignupScreenUi(navController = navController)
         }
-        composable(route = Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}") {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}" + "/${AuthScreensRoutes.SignInScreenRoute.route}") {
             Log.d(TAG, "SetupAppRouteNavigation: SignInScreenUi")
-            SignInScreenUi(navController = navController)
+            SignInScreenUi(onSignInButtonClicked)
         }
     }
 }
