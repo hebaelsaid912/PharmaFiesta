@@ -37,7 +37,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.pharmafiesta.R
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
@@ -46,7 +45,7 @@ import com.example.pharmafiesta.ui.theme.LightGray
 private const val TAG = "SignupScreenUi"
 
 @Composable
-fun SignInScreenUi (navController: NavController) {
+fun SignInScreenUi (onSignInButtonClicked: () -> Unit) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
@@ -76,8 +75,7 @@ fun SignInScreenUi (navController: NavController) {
         item {
             Column(modifier = Modifier.padding(horizontal = 30.dp)) {
                 Button(
-                    onClick = {
-                    },
+                    onClick =  onSignInButtonClicked,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(57.dp)
