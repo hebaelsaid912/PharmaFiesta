@@ -35,6 +35,7 @@ class AuthActivity  : ComponentActivity() {
                 ) {
                     SetupAppRouteNavigation(){
                         startActivity(Intent(this,BottomNavigationActivity::class.java))
+                        this.finish()
                     }
                 }
             }
