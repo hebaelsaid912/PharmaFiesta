@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pharmafiesta.R
-import com.example.pharmafiesta.ui.Screen
+import com.example.pharmafiesta.ui.auth.AuthScreensRoutes
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
@@ -79,7 +79,7 @@ fun SignupScreenUi (navController: NavController) {
             Column(modifier = Modifier.padding(horizontal = 30.dp)) {
                 Button(
                     onClick = {
-                        navController.navigate(Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}")
+                        navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}"+ "/${AuthScreensRoutes.SignInScreenRoute.route}")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,7 +105,7 @@ fun SignupScreenUi (navController: NavController) {
                     fontFamily = FontFamily(Font(R.font.roboto_bold)),
                     fontSize = 16.sp,
                     modifier = Modifier.clickable {
-                        navController.navigate(Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}")
+                        navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}"+ "/${AuthScreensRoutes.SignInScreenRoute.route}")
                     }
                 )
             }

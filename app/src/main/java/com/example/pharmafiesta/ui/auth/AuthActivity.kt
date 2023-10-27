@@ -1,4 +1,4 @@
-package com.example.pharmafiesta.ui
+package com.example.pharmafiesta.ui.auth
 
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +18,10 @@ import com.example.pharmafiesta.ui.splash.SplashScreenUi
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 
 
-private const val TAG = "MainActivity"
+private const val TAG = "AuthActivity"
 
-class MainActivity : ComponentActivity() {
+
+class AuthActivity  : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -40,16 +41,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun SetupAppRouteNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.SplashScreenRoute.route) {
-        composable(route = Screen.SplashScreenRoute.route) {
+    NavHost(navController = navController, startDestination = AuthScreensRoutes.SplashScreenRoute.route) {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SplashScreen")
             SplashScreenUi(navController = navController)
         }
-        composable(route = Screen.SplashScreenRoute.route + "/" + Screen.SignupScreenRoute.route) {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/" + AuthScreensRoutes.SignupScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SignupScreen")
             SignupScreenUi(navController = navController)
         }
-        composable(route = Screen.SplashScreenRoute.route + "/${Screen.SignupScreenRoute.route}"+ "/${Screen.SignInScreenRoute.route}") {
+        composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}"+ "/${AuthScreensRoutes.SignInScreenRoute.route}") {
             Log.d(TAG, "SetupAppRouteNavigation: SignInScreenUi")
             SignInScreenUi(navController = navController)
         }
