@@ -15,4 +15,15 @@
     <string name="bottomNav_notification_title"> Notification </string>
     <string name="bottomNav_bills_title"> Bills </string>
     <string name="bottomNav_chat_title"> Chat </string>
+    <string name="search_text_field_placeholder"> Search </string>
+
+    <string-array name="home_items_array">
+        <item>Drug search</item>
+        <item>Medicinal doses</item>
+        <item>Medical tests</item>
+        <item>Drug interactions</item>
+        <item>first aid</item>
+        <item>laboratory</item>
+    </string-array>
+
 </resources>

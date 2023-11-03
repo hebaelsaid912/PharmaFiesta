@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +38,7 @@ import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
 import com.example.pharmafiesta.ui.theme.Green59
+import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.ui.theme.MintGreen98
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 import com.example.pharmafiesta.ui.theme.White
@@ -65,12 +68,17 @@ fun BottomNavigationBar(navController: NavHostController) {
 
     Scaffold(
         bottomBar = {
-            BottomBar(
-                navController = navController,
-                state = selectedItemState,
-                modifier = Modifier.height(56.dp)
-            )
+            Column {
+                Divider(color = LightGray)
+                BottomBar(
+                    navController = navController,
+                    state = selectedItemState,
+                    modifier = Modifier.height(56.dp).padding(horizontal = 4.dp)
+                )
+            }
         },
+        containerColor = White,
+        contentColor = White
     ){ paddingValues ->
         Box(
             modifier = Modifier.padding(paddingValues)
