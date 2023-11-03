@@ -1,6 +1,8 @@
 package com.example.pharmafiesta.ui.home
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -54,7 +56,7 @@ class BottomNavigationActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController: NavHostController = rememberNavController()
-                    BottomNavigationBar(navController = navController)
+                    BottomNavigationBar(navController = navController,baseContext)
                 }
             }
         }
@@ -63,7 +65,7 @@ class BottomNavigationActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(navController: NavHostController, baseContext: Context) {
     var selectedItemState = remember { mutableStateOf(true) }
 
     Scaffold(
@@ -73,7 +75,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                 BottomBar(
                     navController = navController,
                     state = selectedItemState,
-                    modifier = Modifier.height(56.dp).padding(horizontal = 4.dp)
+                    modifier = Modifier
+                        .height(56.dp)
+                        .padding(horizontal = 4.dp)
                 )
             }
         },
@@ -83,19 +87,22 @@ fun BottomNavigationBar(navController: NavHostController) {
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            NavigationGraph(navController = navController)
+            NavigationGraph(navController = navController,baseContext)
         }
     }
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController, baseContext: Context) {
     NavHost(navController, startDestination = BottomNavDestinations.HomeScreen.route) {
         composable(BottomNavDestinations.HomeScreen.route) {
             HomeScreenUi()
         }
         composable(BottomNavDestinations.ProfileScreen.route) {
-            ProfileScreenUi()
+            ProfileScreenUi(onSaveProfileDataClicked = {
+              Toast.makeText(baseContext," Saved Successfully ",Toast.LENGTH_LONG).show()
+                navController.navigateUp()
+            }, onBackClicked = { navController.navigateUp() })
         }
         composable(BottomNavDestinations.NotificationScreen.route) {
             NotificationScreenUi()
