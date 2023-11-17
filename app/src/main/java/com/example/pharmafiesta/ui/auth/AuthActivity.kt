@@ -3,6 +3,7 @@ package com.example.pharmafiesta.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,9 +34,12 @@ class AuthActivity  : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupAppRouteNavigation(){
-                        startActivity(Intent(this,BottomNavigationActivity::class.java))
-                        this.finish()
+                    SetupAppRouteNavigation(){ message , isLoggedInSuccess ->
+                        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
+                        if(isLoggedInSuccess) {
+                            startActivity(Intent(this, BottomNavigationActivity::class.java))
+                            this.finish()
+                        }
                     }
                 }
             }
@@ -44,7 +48,7 @@ class AuthActivity  : ComponentActivity() {
 }
 
 @Composable
-private fun SetupAppRouteNavigation(onSignInButtonClicked: () -> Unit) {
+private fun SetupAppRouteNavigation(onSignInButtonClicked: (String,Boolean) -> Unit) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,

@@ -34,6 +34,9 @@ class UserPreferences(private val context: Context) {
 
         return User(username, email, phone, password)
     }
+    fun getUserEmail(): String = sharedPreferences.getString(KEY_EMAIL, "") ?: ""
+    fun getUserPassword(): String = sharedPreferences.getString(KEY_PASSWORD, "") ?: ""
+
 
     // Clear user information from SharedPreferences
     fun clearUserInformation() {
