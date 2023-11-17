@@ -16,6 +16,8 @@
     <string name="bottomNav_bills_title"> Bills </string>
     <string name="bottomNav_chat_title"> Chat </string>
     <string name="search_text_field_placeholder"> Search </string>
+    <string name="text_field_error_message"> this field can not be empty </string>
+    <string name="text_field_password_error_message"> this field can not be empty or less than 8 digits</string>
 
     <string-array name="home_items_array">
         <item>Drug search</item>
