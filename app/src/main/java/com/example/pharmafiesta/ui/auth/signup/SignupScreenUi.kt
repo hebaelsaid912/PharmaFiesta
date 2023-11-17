@@ -1,5 +1,6 @@
 package com.example.pharmafiesta.ui.auth.signup
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,12 +24,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -44,11 +48,13 @@ import com.example.pharmafiesta.ui.auth.AuthScreensRoutes
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
+import com.example.pharmafiesta.utils.UserPreferences
 
 private const val TAG = "SignupScreenUi"
 
 @Composable
 fun SignupScreenUi (navController: NavController) {
+    val viewModel = SignupViewModel(UserPreferences(context = LocalContext.current ))
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
@@ -73,13 +79,21 @@ fun SignupScreenUi (navController: NavController) {
             )
         }
         item {
-            SignUpForm()
+            SignUpForm(viewModel)
         }
         item {
             Column(modifier = Modifier.padding(horizontal = 30.dp)) {
                 Button(
                     onClick = {
-                        navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}"+ "/${AuthScreensRoutes.SignInScreenRoute.route}")
+                       viewModel.isFormValid()
+                        if(viewModel.checkFormValidation().isEmpty()) {
+                            viewModel.saveSignUpData()
+                            navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}" + "/${AuthScreensRoutes.SignInScreenRoute.route}")
+                        }else{
+                            viewModel.checkFormValidation().map {
+                                Log.e(TAG,"${it.first}:: ${it.second}")
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -115,47 +129,69 @@ fun SignupScreenUi (navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpForm() {
-
-    val userName = remember { mutableStateOf("") }
-    val phoneNumber = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+private fun SignUpForm(
+    viewModel: SignupViewModel
+) {
     val passwordVisibility = remember { mutableStateOf(false) }
-
     Column(modifier = Modifier.padding(30.dp), verticalArrangement = Arrangement.spacedBy(26.dp)) {
         TextField(
-            value = userName.value,
+            value = viewModel.userNameState.collectAsState().value,
             onValueChange = {
-                userName.value = it
+                viewModel.userNameState.value = it
             },
             leadingIcon = {
                 Icon(painter = painterResource(id = R.drawable.username), contentDescription = "")
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.username_text_field_placeholder), color = Color.Gray)
+                Text(
+                    text = stringResource(id = R.string.username_text_field_placeholder),
+                    color = Color.Gray
+                )
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 containerColor = Color.Transparent
             ),
+            isError = viewModel.errorState.collectAsState().value.contains(
+                Pair(
+                    ErrorStates.USER_NAME,
+                    true
+                )
+            ),
+            supportingText = {
+                if (viewModel.errorState.collectAsState().value.contains(
+                        Pair(
+                            ErrorStates.USER_NAME,
+                            true
+                        )
+                    )
+                )
+                    Text(
+                        text = stringResource(id = R.string.text_field_error_message),
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .heightIn(56.dp, 75.dp)
                 .clip(RoundedCornerShape(30.dp))
                 .background(LightGray)
         )
         TextField(
-            value = email.value,
+            value = viewModel.emailState.collectAsState().value,
             onValueChange = {
-                email.value = it
+                viewModel.emailState.value = it
             },
             leadingIcon = {
                 Icon(painter = painterResource(id = R.drawable.email), contentDescription = "")
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.email_text_field_placeholder), color = Color.Gray)
+                Text(
+                    text = stringResource(id = R.string.email_text_field_placeholder),
+                    color = Color.Gray
+                )
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
@@ -165,22 +201,45 @@ fun SignUpForm() {
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
             ),
+            isError = viewModel.errorState.collectAsState().value.contains(
+                Pair(
+                    ErrorStates.EMAIL,
+                    true
+                )
+            ),
+            supportingText = {
+                if (viewModel.errorState.collectAsState().value.contains(
+                        Pair(
+                            ErrorStates.EMAIL,
+                            true
+                        )
+                    )
+                )
+                    Text(
+                        text = stringResource(id = R.string.text_field_error_message),
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .heightIn(56.dp, 75.dp)
                 .clip(RoundedCornerShape(30.dp))
                 .background(LightGray)
         )
         TextField(
-            value = phoneNumber.value,
+            value = viewModel.phoneState.collectAsState().value,
             onValueChange = {
-                phoneNumber.value = it
+                viewModel.phoneState.value = it
             },
             leadingIcon = {
                 Icon(painter = painterResource(id = R.drawable.phone), contentDescription = "")
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.phone_text_field_placeholder), color = Color.Gray)
+                Text(
+                    text = stringResource(id = R.string.phone_text_field_placeholder),
+                    color = Color.Gray
+                )
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
@@ -190,30 +249,59 @@ fun SignUpForm() {
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone
             ),
+            isError = viewModel.errorState.collectAsState().value.contains(
+                Pair(
+                    ErrorStates.PHONE,
+                    true
+                )
+            ),
+            supportingText = {
+                if (viewModel.errorState.collectAsState().value.contains(
+                        Pair(
+                            ErrorStates.PHONE,
+                            true
+                        )
+                    )
+                )
+                    Text(
+                        text = stringResource(id = R.string.text_field_error_message),
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .heightIn(56.dp, 75.dp)
                 .clip(RoundedCornerShape(30.dp))
                 .background(LightGray)
         )
         TextField(
-            value = password.value,
+            value = viewModel.passwordState.collectAsState().value,
             onValueChange = {
-                password.value = it
+                viewModel.passwordState.value = it
             },
             leadingIcon = {
                 Icon(painter = painterResource(id = R.drawable.password), contentDescription = "")
             },
             trailingIcon = {
-                IconButton(onClick = { passwordVisibility.value = passwordVisibility.value.not() }) {
+                IconButton(onClick = {
+                    passwordVisibility.value = passwordVisibility.value.not()
+                }) {
                     Icon(
-                        painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_visibility_on else R.drawable.password_visibility_off),
+                        painter = painterResource(
+                            id =
+                            if (passwordVisibility.value) R.drawable.password_visibility_on
+                            else R.drawable.password_visibility_off
+                        ),
                         contentDescription = ""
                     )
                 }
             },
             placeholder = {
-                Text(text = stringResource(id = R.string.password_text_field_placeholder), color = Color.Gray)
+                Text(
+                    text = stringResource(id = R.string.password_text_field_placeholder),
+                    color = Color.Gray
+                )
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
@@ -224,9 +312,29 @@ fun SignUpForm() {
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
             ),
+            isError = viewModel.errorState.collectAsState().value.contains(
+                Pair(
+                    ErrorStates.PASSWORD,
+                    true
+                )
+            ),
+            supportingText = {
+                if (viewModel.errorState.collectAsState().value.contains(
+                        Pair(
+                            ErrorStates.PASSWORD,
+                            true
+                        )
+                    )
+                )
+                    Text(
+                        text = stringResource(id = R.string.text_field_password_error_message),
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .heightIn(56.dp, 75.dp)
                 .clip(RoundedCornerShape(30.dp))
                 .background(LightGray)
         )
