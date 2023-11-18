@@ -39,6 +39,7 @@ import com.example.pharmafiesta.ui.home.billsscreen.BillsScreenUi
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.drugsearch.DrugSearchScreenUi
+import com.example.pharmafiesta.ui.home.homescreen.firstaid.FirstAidScreenUi
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
 import com.example.pharmafiesta.ui.theme.Green59
@@ -115,38 +116,32 @@ fun NavigationGraph(navController: NavHostController, baseContext: Context) {
                 HomeScreenUi(navController)
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route+
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.DrugSearchScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.DrugSearchScreenRoute.route
             ) {
                 DrugSearchScreenUi()
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route +
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.MedicinalDosesScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.MedicinalDosesScreenRoute.route
             ) {
 
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route +
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
+                 BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
             ) {
 
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route +
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
+                 BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
             ) {
 
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route +
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.FirstAidScreenRoute.route
+                 BottomNavDestinations.BaseHomeScreen.FirstAidScreenRoute.route
             ) {
-
+                FirstAidScreenUi(onBackClicked = { navController.navigateUp() })
             }
             composable(
-                /*BottomNavDestinations.BaseHomeScreen.route +"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route +
-                        "/" +*/ BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
+                 BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
             ) {
 
             }
