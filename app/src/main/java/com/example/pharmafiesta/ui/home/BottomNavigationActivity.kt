@@ -46,8 +46,11 @@ import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.ui.theme.MintGreen98
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 import com.example.pharmafiesta.ui.theme.White
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "BottomNavigationActivity"
+
+@AndroidEntryPoint
 class BottomNavigationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

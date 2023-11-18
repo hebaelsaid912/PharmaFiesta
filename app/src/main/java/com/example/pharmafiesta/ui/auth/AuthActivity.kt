@@ -19,11 +19,12 @@ import com.example.pharmafiesta.ui.auth.signup.SignupScreenUi
 import com.example.pharmafiesta.ui.home.BottomNavigationActivity
 import com.example.pharmafiesta.ui.splash.SplashScreenUi
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 
 private const val TAG = "AuthActivity"
 
-
+@AndroidEntryPoint
 class AuthActivity  : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ private fun SetupAppRouteNavigation(onSignInButtonClicked: (String,Boolean) -> U
         }
         composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}" + "/${AuthScreensRoutes.SignInScreenRoute.route}") {
             Log.d(TAG, "SetupAppRouteNavigation: SignInScreenUi")
-            SignInScreenUi(onSignInButtonClicked)
+            SignInScreenUi(onSignInButtonClicked = onSignInButtonClicked)
         }
     }
 }

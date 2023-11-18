@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pharmafiesta.ui.auth.signup.ErrorStates
 import com.example.pharmafiesta.utils.UserPreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val userPreferences : UserPreferences):ViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor(private val userPreferences : UserPreferences):ViewModel() {
     val emailState = MutableStateFlow("")
     val passwordState = MutableStateFlow("")
     val errorState = MutableStateFlow<List<Pair<ErrorStates, Boolean>>>(listOf())
