@@ -31,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -42,19 +41,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.pharmafiesta.R
 import com.example.pharmafiesta.ui.auth.AuthScreensRoutes
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
-import com.example.pharmafiesta.utils.UserPreferences
 
 private const val TAG = "SignupScreenUi"
 
 @Composable
-fun SignupScreenUi (navController: NavController) {
-    val viewModel = SignupViewModel(UserPreferences(context = LocalContext.current ))
+fun SignupScreenUi (navController: NavController, viewModel: SignupViewModel = hiltViewModel()) {
+
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
