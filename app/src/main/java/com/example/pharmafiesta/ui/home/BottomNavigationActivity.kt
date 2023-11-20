@@ -103,9 +103,9 @@ fun BottomNavigationBar(navController: NavHostController, baseContext: Context) 
 fun NavigationGraph(navController: NavHostController, baseContext: Context) {
     NavHost(
         navController,
-        startDestination = BottomNavDestinations.BaseHomeScreen.route /*+"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route*/
+        startDestination = BottomNavDestinations.BaseHomeScreen.route
     ) {
-        composable(BottomNavDestinations.BaseHomeScreen.route/*+"/"+BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route*/) {
+        composable(BottomNavDestinations.BaseHomeScreen.route) {
             HomeScreenUi(navController)
         }
         navigation(

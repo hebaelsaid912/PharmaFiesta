@@ -71,6 +71,7 @@ fun DrugSearchScreenUi ( viewModel: DrugSearchViewModel = hiltViewModel()) {
                 unfocusedIndicatorColor = Color.Transparent,
                 containerColor = Color.Transparent
             ),
+            maxLines = 1,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
