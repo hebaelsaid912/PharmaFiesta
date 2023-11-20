@@ -57,10 +57,9 @@ class DrugSearchViewModel @Inject constructor( val application: Application, pri
         }
     }
 
-    private suspend fun searchDrugsListItemsIntoDB(searchKeyword: String):List<Drug> {
-        Log.e(TAG , "searchKeyword2:: $searchKeyword")
-        return  drugsDatabase.drugsDao().searchDrugs(searchKeyword.trim())
-    }
+    private suspend fun searchDrugsListItemsIntoDB(searchKeyword: String): List<Drug> =
+        drugsDatabase.drugsDao().searchDrugsByTradeName(searchKeyword.trim())
+
 
     private suspend fun clearDrugsTable() {
         drugsDatabase.drugsDao().clearDrugsDatabase()
