@@ -96,5 +96,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
 
-
+    //load image from url in compose
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.2.2")
+    implementation "com.github.skydoves:landscapist-glide:1.3.7"
 }

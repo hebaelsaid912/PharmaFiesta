@@ -137,5 +137,6 @@ class ActivityChatBot : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this,BottomNavigationActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
