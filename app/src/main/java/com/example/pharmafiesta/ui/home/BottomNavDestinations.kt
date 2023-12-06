@@ -23,11 +23,22 @@ sealed class BottomNavDestinations(
     ){
         object HomeScreenRoute : BottomNavDestinations(HOME_SCREEN_ROUTE)
         object DrugSearchScreenRoute : BottomNavDestinations(Constants.DRUG_SEARCH_SCREEN_ROUTE)
+        object DrugInfoScreenRoute : BottomNavDestinations(Constants.DRUG_Info)
         object MedicinalDosesScreenRoute : BottomNavDestinations(Constants.MEDICINAL_DOSES_SCREEN_ROUTE)
         object MedicalTestScreenRoute : BottomNavDestinations(Constants.MEDICAL_TESTS_SCREEN_ROUTE)
         object DrugInteractionsScreenRoute : BottomNavDestinations(Constants.DRUG_INTERACTIONS_SCREEN_ROUTE)
         object FirstAidScreenRoute : BottomNavDestinations(Constants.FIRST_AID_SCREEN_ROUTE)
         object LaboratoryScreenRoute : BottomNavDestinations(Constants.LABORATORY_SCREEN_ROUTE)
+
+
+        //new
+        object NewFirstAidRoute : BottomNavDestinations(Constants.NEW_FIRST_AID)
+        object SHARAQANRoute : BottomNavDestinations(Constants.SHARAQAN)
+        object BALEELESANRoute : BottomNavDestinations(Constants.BALEE_LESAN)
+        object IGMAARoute : BottomNavDestinations(Constants.IGMAA)
+        object IBTLAARoute : BottomNavDestinations(Constants.IBTLAA)
+        object GORAZRoute : BottomNavDestinations(Constants.GORAZ)
+
     }
 
     object ProfileScreen : BottomNavDestinations(

@@ -4,6 +4,7 @@ package com.example.pharmafiesta.ui.home.homescreen.drugsearch
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.pharmafiesta.R
+import com.example.pharmafiesta.ui.home.BottomNavDestinations
+import com.example.pharmafiesta.ui.home.homescreen.druginfo.navigateToDrugInfoScreen
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.ui.theme.White
@@ -43,7 +47,7 @@ private const val TAG = "DrugSearchScreenUi"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrugSearchScreenUi ( viewModel: DrugSearchViewModel = hiltViewModel()) {
+fun DrugSearchScreenUi ( navController: NavController,viewModel: DrugSearchViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,6 +91,13 @@ fun DrugSearchScreenUi ( viewModel: DrugSearchViewModel = hiltViewModel()) {
             Log.e(TAG , "info:: ${drug.info}")
             Log.e(TAG , "price:: ${drug.price}")*/
                 Box(modifier = Modifier
+                    .clickable {
+
+                        navController.navigateToDrugInfoScreen(tradeName = drug.tradeName?.replace("/","")?:"--", company = drug.company?.replace("/","")?:"--",
+                            price = drug.price?.replace("/","")?:"--", group = drug.group?.replace("/","")?:"--", info = drug.info?.replace("/","")?:"--", form = drug.form?.replace("/","")?:"--"
+                            , activeIngredient = drug.activeIngredient?.replace("/","")?:"--")
+
+                    }
                     .fillMaxWidth()
                     .padding(vertical = 8.dp, horizontal = 8.dp)
                     .border(BorderStroke(1.dp, Green59), RoundedCornerShape(8.dp)),) {

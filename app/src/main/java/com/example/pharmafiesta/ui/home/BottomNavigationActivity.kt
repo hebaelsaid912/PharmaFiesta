@@ -1,6 +1,7 @@
 package com.example.pharmafiesta.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -35,11 +36,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.pharmafiesta.ui.home.billsscreen.BillsScreenUi
+import com.example.pharmafiesta.ui.chatbot.ActivityChatBot
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
+import com.example.pharmafiesta.ui.home.homescreen.druginfo.drugInfoRoute
 import com.example.pharmafiesta.ui.home.homescreen.drugsearch.DrugSearchScreenUi
-import com.example.pharmafiesta.ui.home.homescreen.firstaid.FirstAidScreenUi
+import com.example.pharmafiesta.ui.home.homescreen.firstaid.InstructionsScreenUI
+import com.example.pharmafiesta.ui.home.homescreen.firstaid.SwallowTheTongueScreenUI
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IgmaaScreen
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.NewFirstAidScreen
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
 import com.example.pharmafiesta.ui.theme.Green59
@@ -47,12 +52,19 @@ import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.ui.theme.MintGreen98
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 import com.example.pharmafiesta.ui.theme.White
+import com.example.pharmafiesta.utils.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val TAG = "BottomNavigationActivity"
 
 @AndroidEntryPoint
 class BottomNavigationActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
+    var num = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,7 +75,14 @@ class BottomNavigationActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController: NavHostController = rememberNavController()
-                    BottomNavigationBar(navController = navController,baseContext)
+                    BottomNavigationBar(userPreferences,navController = navController,baseContext){
+                        if(num==0) {
+                            val intent = Intent(this, ActivityChatBot::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }
                 }
             }
         }
@@ -72,7 +91,7 @@ class BottomNavigationActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar(navController: NavHostController, baseContext: Context) {
+fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostController, baseContext: Context,onAction:()->Unit) {
     var selectedItemState = remember { mutableStateOf(true) }
 
     Scaffold(
@@ -94,57 +113,107 @@ fun BottomNavigationBar(navController: NavHostController, baseContext: Context) 
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            NavigationGraph(navController = navController,baseContext)
+            NavigationGraph(userPreferences,navController = navController,baseContext){
+                onAction()
+            }
         }
     }
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, baseContext: Context) {
+fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostController,
+                    baseContext: Context,
+                    onAction:()->Unit) {
     NavHost(
         navController,
         startDestination = BottomNavDestinations.BaseHomeScreen.route
     ) {
         composable(BottomNavDestinations.BaseHomeScreen.route) {
-            HomeScreenUi(navController)
+            HomeScreenUi(navController,userPreferences)
         }
         navigation(
             startDestination = BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route,
             route = BottomNavDestinations.BaseHomeScreen.route
         ) {
             composable(BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route) {
-                HomeScreenUi(navController)
+                HomeScreenUi(navController,userPreferences)
             }
             composable(
                 BottomNavDestinations.BaseHomeScreen.DrugSearchScreenRoute.route
             ) {
-                DrugSearchScreenUi()
+                DrugSearchScreenUi(navController)
             }
+
+            drugInfoRoute(navController)
+
             composable(
-                BottomNavDestinations.BaseHomeScreen.MedicinalDosesScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
             ) {
 
             }
             composable(
-                 BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
             ) {
 
             }
+
+
+
+            //region new
+
             composable(
-                 BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.NewFirstAidRoute.route
+            ) {
+                NewFirstAidScreen(navController,userPreferences)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.SHARAQANRoute.route
+            ) {
+                InstructionsScreenUI (navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.BALEELESANRoute.route
+            ) {
+                SwallowTheTongueScreenUI (navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.IGMAARoute.route
+            ) {
+                IgmaaScreen(navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.IBTLAARoute.route
             ) {
 
             }
+
             composable(
-                 BottomNavDestinations.BaseHomeScreen.FirstAidScreenRoute.route
-            ) {
-                FirstAidScreenUi(onBackClicked = { navController.navigateUp() })
-            }
-            composable(
-                 BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
+                BottomNavDestinations.BaseHomeScreen.GORAZRoute.route
             ) {
 
             }
+
+            //endregion
+
+
+
+
+
+
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
+            ) {
+
+            }
+
+
+
+
         }
 
         composable(BottomNavDestinations.ProfileScreen.route) {
@@ -157,7 +226,7 @@ fun NavigationGraph(navController: NavHostController, baseContext: Context) {
             NotificationScreenUi()
         }
         composable(BottomNavDestinations.BillsScreen.route) {
-            BillsScreenUi()
+            onAction()
         }
         composable(BottomNavDestinations.ChatScreen.route) {
             ChatScreenUi()

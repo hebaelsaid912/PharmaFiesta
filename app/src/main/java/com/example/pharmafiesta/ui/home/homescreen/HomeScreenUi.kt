@@ -33,11 +33,12 @@ import com.example.pharmafiesta.ui.home.BottomNavDestinations
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
+import com.example.pharmafiesta.utils.UserPreferences
 
 private const val TAG = "HomeScreenUi"
 
 @Composable
-fun HomeScreenUi (navController: NavHostController) {
+fun HomeScreenUi (navController: NavHostController,userPreferences: UserPreferences) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +69,7 @@ fun HomeScreenUi (navController: NavHostController) {
                     contentDescription = "",
                     modifier = Modifier.size(24.dp)
                 )
-                Text(text = "Toleen", fontSize = 16.sp, color = Green59)
+                Text(text = userPreferences.getUserInformation().username, fontSize = 16.sp, color = Green59)
             }
         }
 
@@ -101,7 +102,7 @@ fun HomeScreenUi (navController: NavHostController) {
             }
             item() {
                 HomeItems(homeGridItems, index = 4, iconRes = R.drawable.home_first_aid){
-                    navController.navigate( BottomNavDestinations.BaseHomeScreen.FirstAidScreenRoute.route)
+                    navController.navigate( BottomNavDestinations.BaseHomeScreen.NewFirstAidRoute.route)
                 }
             }
             item() {

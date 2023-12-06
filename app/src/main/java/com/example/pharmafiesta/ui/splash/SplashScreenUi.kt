@@ -23,11 +23,13 @@ import androidx.compose.ui.unit.dp
 import com.example.pharmafiesta.R
 import com.example.pharmafiesta.ui.auth.AuthScreensRoutes
 import com.example.pharmafiesta.ui.theme.Green59
+import com.example.pharmafiesta.utils.UserPreferences
 
 private const val TAG = "SplashScreenUi"
 
 @Composable
-fun SplashScreenUi (navController: NavController) {
+fun SplashScreenUi(navController: NavController, userPreferences: UserPreferences,loginSuccess:()->Unit) {
+
 
     Column(
         modifier = Modifier
@@ -43,14 +45,19 @@ fun SplashScreenUi (navController: NavController) {
         Spacer(modifier = Modifier.padding(77.dp))
         Button(
             onClick = {
-                navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}")
+                if (userPreferences.getUserEmail().isNotEmpty()) {
+                    loginSuccess()
+                } else {
+                    navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}")
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(57.dp)
                 .clip(
                     RoundedCornerShape(30.dp)
-                ).background(Green59),
+                )
+                .background(Green59),
         ) {
             Text(text = stringResource(id = R.string.get_started_btn))
         }

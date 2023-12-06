@@ -27,12 +27,13 @@ import androidx.compose.ui.unit.sp
 import com.example.pharmafiesta.R
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
+import com.example.pharmafiesta.utils.UserPreferences
 
 private const val TAG = "FirstAidScreenUi"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FirstAidScreenUi (onBackClicked:() ->Unit) {
+fun FirstAidScreenUi (onBackClicked:() ->Unit,userPreferences: UserPreferences) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +59,7 @@ fun FirstAidScreenUi (onBackClicked:() ->Unit) {
                     contentDescription = "",
                     modifier = Modifier.size(24.dp)
                 )
-                Text(text = "Toleen", fontSize = 14.sp, color = Black)
+                Text(text = userPreferences.getUserInformation().username , fontSize = 14.sp, color = Black)
             }
         }
         Column(
@@ -71,12 +72,12 @@ fun FirstAidScreenUi (onBackClicked:() ->Unit) {
                 fontSize = 24.sp,
                 color = Green59
             )
-            HorizontalPager( pageCount = 3,state = rememberPagerState(initialPage = 1), contentPadding = PaddingValues(16.dp)) { page ->
-                when (page) {
-                    1 -> InstructionsScreenUI()
-                    2 -> SwallowTheTongueScreenUI()
-                }
-            }
+//            HorizontalPager( pageCount = 2,state = rememberPagerState(initialPage = 0), contentPadding = PaddingValues(16.dp)) { page ->
+//                when (page) {
+//                    0 -> InstructionsScreenUI(navController)
+//                    1 -> SwallowTheTongueScreenUI(navController)
+//                }
+//            }
         }
     }
 }
