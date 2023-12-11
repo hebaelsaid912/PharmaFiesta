@@ -38,7 +38,7 @@ sealed class BottomNavDestinations(
         object IGMAARoute : BottomNavDestinations(Constants.IGMAA)
         object IBTLAARoute : BottomNavDestinations(Constants.IBTLAA)
         object GORAZRoute : BottomNavDestinations(Constants.GORAZ)
-
+        object WebViewScreen : BottomNavDestinations(Constants.WebViewScreen)
     }
 
     object ProfileScreen : BottomNavDestinations(

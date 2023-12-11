@@ -31,5 +31,7 @@ object Constants {
     const val IGMAA : String = "IGMAA"
     const val IBTLAA : String = "IBTLAA"
     const val GORAZ : String = "GORAZ"
+    const val WebViewScreen : String = "WebViewScreen"
+
 
 }

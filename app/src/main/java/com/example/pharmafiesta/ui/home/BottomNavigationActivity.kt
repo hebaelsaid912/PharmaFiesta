@@ -37,14 +37,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.pharmafiesta.ui.chatbot.ActivityChatBot
+import com.example.pharmafiesta.ui.home.calculator.ActivityCalculators
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.druginfo.drugInfoRoute
 import com.example.pharmafiesta.ui.home.homescreen.drugsearch.DrugSearchScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.firstaid.InstructionsScreenUI
 import com.example.pharmafiesta.ui.home.homescreen.firstaid.SwallowTheTongueScreenUI
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.GorzaScreen
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IbtlaaScreen
 import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IgmaaScreen
 import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.NewFirstAidScreen
+import com.example.pharmafiesta.ui.home.medicaltest.ActivityMedicalTest
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
 import com.example.pharmafiesta.ui.theme.Green59
@@ -53,6 +57,7 @@ import com.example.pharmafiesta.ui.theme.MintGreen98
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 import com.example.pharmafiesta.ui.theme.White
 import com.example.pharmafiesta.utils.UserPreferences
+import com.example.pharmafiesta.utils.webViewCompose.webViewRoute
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -75,7 +80,21 @@ class BottomNavigationActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController: NavHostController = rememberNavController()
-                    BottomNavigationBar(userPreferences,navController = navController,baseContext){
+                    BottomNavigationBar(userPreferences,navController = navController,baseContext, medicalTestAction = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityMedicalTest::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }, medicalDoses = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityCalculators::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }){
                         if(num==0) {
                             val intent = Intent(this, ActivityChatBot::class.java)
                             startActivity(intent)
@@ -91,7 +110,11 @@ class BottomNavigationActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostController, baseContext: Context,onAction:()->Unit) {
+fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostController,
+                        baseContext: Context,
+                        medicalTestAction:()->Unit,
+                        medicalDoses:()->Unit,
+                        onAction:()->Unit) {
     var selectedItemState = remember { mutableStateOf(true) }
 
     Scaffold(
@@ -113,7 +136,9 @@ fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostC
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            NavigationGraph(userPreferences,navController = navController,baseContext){
+            NavigationGraph(userPreferences,navController = navController,baseContext, medicalTestAction = {
+                medicalTestAction()
+            }, medicalDoses = {medicalDoses()}){
                 onAction()
             }
         }
@@ -123,6 +148,8 @@ fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostC
 @Composable
 fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostController,
                     baseContext: Context,
+                    medicalTestAction:()->Unit,
+                    medicalDoses:()->Unit,
                     onAction:()->Unit) {
     NavHost(
         navController,
@@ -149,7 +176,7 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             composable(
                 BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
             ) {
-
+                medicalTestAction()
             }
             composable(
                 BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
@@ -188,14 +215,16 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             composable(
                 BottomNavDestinations.BaseHomeScreen.IBTLAARoute.route
             ) {
-
+                IbtlaaScreen(navController)
             }
 
             composable(
                 BottomNavDestinations.BaseHomeScreen.GORAZRoute.route
             ) {
-
+                GorzaScreen(navController)
             }
+
+            webViewRoute(BottomNavDestinations.BaseHomeScreen.WebViewScreen.route,navController)
 
             //endregion
 
@@ -211,7 +240,11 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
 
             }
 
-
+            composable(
+                BottomNavDestinations.BaseHomeScreen.MedicinalDosesScreenRoute.route
+            ) {
+                medicalDoses()
+            }
 
 
         }

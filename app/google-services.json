@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "931795263250",
+    "project_id": "pharma-b6cfb",
+    "storage_bucket": "pharma-b6cfb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931795263250:android:e01f3adb2422ae7ceb1dcb",
+        "android_client_info": {
+          "package_name": "com.example.pharmafiesta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuvEdNGC79lzd9cBlfw_9TzC1v97GB-P8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

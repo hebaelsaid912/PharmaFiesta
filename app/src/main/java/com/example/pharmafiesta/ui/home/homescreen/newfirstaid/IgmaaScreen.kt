@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +33,7 @@ import com.example.pharmafiesta.ui.home.BottomNavDestinations
 import com.example.pharmafiesta.ui.theme.Black
 import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.utils.GifScreen
+import com.example.pharmafiesta.utils.webViewCompose.navigateToWebView
 
 @Composable
 fun IgmaaScreen(navController: NavController) {
@@ -405,6 +404,26 @@ fun IgmaaScreen(navController: NavController) {
                         )
 
                     }
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Button(
+                        onClick = {
+                            navController.navigateToWebView(BottomNavDestinations.BaseHomeScreen.WebViewScreen.route,
+                                "https://www.syrianclinic.com/136-first-aid/first-aid/1516-principles-of-primary-aid.html")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 30.dp),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Green59)
+                    ) {
+                        androidx.compose.material.Text(
+                            text = "Show Source",
+                            fontSize = 12.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(15.dp))
 
 
