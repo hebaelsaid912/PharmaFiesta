@@ -1,4 +1,4 @@
-package com.example.pharmafiesta.ui.home.calculator.adapter
+package com.example.pharmafiesta.ui.home.laboratores.adapter
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -7,11 +7,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pharmafiesta.databinding.LayoutCalItemBinding
+import com.example.pharmafiesta.databinding.LayoutLabsItemBinding
+import com.example.pharmafiesta.databinding.LayoutTestItemBinding
+import com.example.pharmafiesta.ui.home.laboratores.model.ModelLabs
 import com.example.pharmafiesta.utils.layoutInflater
 
-class AdapterCalculator(private val onAction: (Int) -> Unit) :
-    ListAdapter<String, RecyclerView.ViewHolder>(
+class AdapterLabs : ListAdapter<ModelLabs, RecyclerView.ViewHolder>(
         diffCallback
     ) {
 
@@ -20,7 +21,7 @@ class AdapterCalculator(private val onAction: (Int) -> Unit) :
         viewType: Int
     ): RecyclerView.ViewHolder {
         val binding =
-            LayoutCalItemBinding.inflate(parent.layoutInflater, parent, false)
+            LayoutLabsItemBinding.inflate(parent.layoutInflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -36,35 +37,33 @@ class AdapterCalculator(private val onAction: (Int) -> Unit) :
         }
     }
 
-    private inner class ViewHolder(private val binding: LayoutCalItemBinding) :
+    private inner class ViewHolder(private val binding: LayoutLabsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.M)
-        fun bind(item: String) = with(binding) {
+        fun bind(item: ModelLabs) = with(binding) {
 
-            tvCalc.text = item
-
-            tvCalc.setOnClickListener {
-                onAction(layoutPosition)
-            }
+            tvLabNameValue.text = item.labName
+            tvSiteValue.text = item.labSite
+            tvPhoneValue.text = item.phone
 
         }
 
     }
 
     companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<String>() {
+        val diffCallback = object : DiffUtil.ItemCallback<ModelLabs>() {
             override fun areItemsTheSame(
-                oldItem: String,
-                newItem: String
+                oldItem: ModelLabs,
+                newItem: ModelLabs
             ): Boolean {
                 return oldItem == newItem
             }
 
             @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(
-                oldItem: String,
-                newItem: String
+                oldItem: ModelLabs,
+                newItem: ModelLabs
             ): Boolean {
                 return oldItem == newItem
             }

@@ -98,8 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="12dp"
-                    android:hint="Enter patient weight (cm)"
-                    android:inputType="text"
+                    android:hint="Enter patient weight (Kg)"
+                    android:inputType="numberDecimal"
                     app:layout_constraintTop_toBottomOf="@+id/tvPatientWeight"
                     tools:ignore="HardcodedText" />
 

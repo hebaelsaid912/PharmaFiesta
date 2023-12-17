@@ -45,7 +45,7 @@ fun SplashScreenUi(navController: NavController, userPreferences: UserPreference
         Spacer(modifier = Modifier.padding(77.dp))
         Button(
             onClick = {
-                if (userPreferences.getUserEmail().isNotEmpty()) {
+                if (userPreferences.getUserLogin().isNotEmpty()) {
                     loginSuccess()
                 } else {
                     navController.navigate(AuthScreensRoutes.SplashScreenRoute.route + "/${AuthScreensRoutes.SignupScreenRoute.route}")

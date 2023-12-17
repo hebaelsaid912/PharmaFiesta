@@ -48,8 +48,11 @@ class ActivityIdealBody : AppCompatActivity() {
                 binding.layoutBodyWeight.isVisible = true
                 binding.layoutDosingWeight.isVisible = true
 
-                binding.tvIdealBodyWeightResult.text = "th result of Ideal Body Weight is = $idealBodyWeight Kg"
-                binding.tvDosingWeightResult.text = "th result of Dosing Weight is = $doseWeight Kg"
+                val formattedBodyWeight= String.format("%.2f", idealBodyWeight)
+                val formatteddoseWeight= String.format("%.2f", doseWeight)
+
+                binding.tvIdealBodyWeightResult.text = "th result of Ideal Body Weight is = $formattedBodyWeight Kg"
+                binding.tvDosingWeightResult.text = "th result of Dosing Weight is = $formatteddoseWeight Kg"
 
             }
         }
@@ -60,6 +63,10 @@ class ActivityIdealBody : AppCompatActivity() {
             binding.edSex.setText("")
             binding.layoutBodyWeight.isVisible = false
             binding.layoutDosingWeight.isVisible = false
+        }
+
+        binding.imgBack.setOnClickListener {
+            finish()
         }
     }
 
@@ -110,6 +117,10 @@ class ActivityIdealBody : AppCompatActivity() {
         } else {
             true
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 }

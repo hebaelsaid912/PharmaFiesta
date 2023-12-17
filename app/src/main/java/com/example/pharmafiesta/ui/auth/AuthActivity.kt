@@ -41,11 +41,13 @@ class AuthActivity  : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     SetupAppRouteNavigation(userPreferences, loginSuccess = {
+                        userPreferences.saveUserLogin("true")
                         startActivity(Intent(this, BottomNavigationActivity::class.java))
                         this.finish()
                     }){ message , isLoggedInSuccess ->
                         Toast.makeText(this,message, Toast.LENGTH_LONG).show()
                         if(isLoggedInSuccess) {
+                            userPreferences.saveUserLogin("true")
                             startActivity(Intent(this, BottomNavigationActivity::class.java))
                             this.finish()
                         }

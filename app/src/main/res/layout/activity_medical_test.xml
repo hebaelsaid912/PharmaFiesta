@@ -4,34 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/medicaltestnew"
     tools:context=".ui.home.medicaltest.ActivityMedicalTest">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/bnfsge"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="15dp"
+        android:src="@drawable/ic_arrow_back"
+        android:tint="@color/teal_200"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:src="@drawable/ic_arrow_back"
-            android:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medical Test"
+        android:textColor="@color/teal_200"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBack"
+        app:layout_constraintStart_toEndOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="@+id/imgBack"
+        tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/medicaltest"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/imgBack">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/captureButton"
@@ -40,9 +40,11 @@
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
-            android:background="@color/teal_200"
+            android:background="@drawable/drawable_corner_edittext_purple"
+            android:backgroundTint="@color/teal_200"
             android:gravity="center"
-            android:text="Capture Image"
+            android:textStyle="bold"
+            android:text="تصوير تحليل"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,11 +62,11 @@
 
     <ProgressBar
         android:id="@+id/progress"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/bnfsge"
         android:progressTint="@color/white"
         android:visibility="gone"
-        android:background="@color/bnfsge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

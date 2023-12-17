@@ -56,13 +56,13 @@ sealed class BottomNavDestinations(
     object BillsScreen : BottomNavDestinations(
         route = BILLS_SCREEN_ROUTE,
         title = R.string.bottomNav_bills_title,
-        icon = R.drawable.ic_menu
+        icon = R.drawable.ic_chat
     )
 
     object ChatScreen : BottomNavDestinations(
         route = CHAT_SCREEN_ROUTE,
         title = R.string.bottomNav_chat_title,
-        icon = R.drawable.ic_chat
+        icon = R.drawable.ic_menu
     )
 
 }

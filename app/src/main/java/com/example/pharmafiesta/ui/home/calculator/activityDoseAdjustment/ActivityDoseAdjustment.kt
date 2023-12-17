@@ -9,6 +9,7 @@ import com.example.pharmafiesta.utils.TxT
 import com.example.pharmafiesta.utils.onTextChange
 import com.example.pharmafiesta.utils.resetError
 import com.example.pharmafiesta.utils.setError
+import kotlin.math.pow
 
 class ActivityDoseAdjustment : AppCompatActivity() {
 
@@ -38,8 +39,11 @@ class ActivityDoseAdjustment : AppCompatActivity() {
                 binding.layoutBsa.isVisible = true
                 binding.layoutDose.isVisible = true
 
-                binding.tvBSAResult.text = "th result of BSA is = $bsa m²"
-                binding.tvAdjustedDoseResult.text = "th result of Adjusted Dose is = $adjustDose mg"
+                val formattedBSA= String.format("%.2f", bsa)
+                val formattedAdjistDose= String.format("%.2f", adjustDose)
+
+                binding.tvBSAResult.text = "th result of BSA is = $formattedBSA m²"
+                binding.tvAdjustedDoseResult.text = "th result of Adjusted Dose is = $formattedAdjistDose mg"
 
             }
         }
@@ -51,10 +55,14 @@ class ActivityDoseAdjustment : AppCompatActivity() {
             binding.layoutDose.isVisible = false
             binding.layoutBsa.isVisible = false
         }
+
+        binding.imgBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun calcBsa(height_cm: Double, weight_kg: Double): Double {
-        val bsa = 0.007184 * (height_cm * 0.725) * (weight_kg * 0.425)
+        val bsa = 0.007184 * (height_cm.pow(0.725)) * (weight_kg.pow(0.425))
         return bsa
     }
 
@@ -96,6 +104,10 @@ class ActivityDoseAdjustment : AppCompatActivity() {
         } else {
             true
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
 }

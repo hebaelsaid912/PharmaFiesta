@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -34,6 +35,7 @@ import com.example.pharmafiesta.R
 import com.example.pharmafiesta.ui.home.BottomNavDestinations
 
 import com.example.pharmafiesta.ui.theme.Black
+import com.example.pharmafiesta.ui.theme.Green59
 import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.utils.UserPreferences
 import com.example.pharmafiesta.utils.webViewCompose.navigateToWebView
@@ -58,6 +60,14 @@ fun NewFirstAidScreen(navController: NavController,userPreferences:UserPreferenc
                         .align(Alignment.TopStart)
                         .clickable { navController.navigateUp() }
                 )
+
+                Text(modifier = Modifier.align(Alignment.Center),text = "First Aid",
+                    color = Green59,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally,

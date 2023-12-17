@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.calculator.activityIdealBody.ActivityIdealBody">
+    tools:context=".ui.home.calculator.weightDose.ActivityWeightDose">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutToolbar"
@@ -28,7 +28,7 @@
             android:id="@+id/tvCreateNewAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ideal Body Weight and Dosing Weight"
+            android:text="Weight Based Dosage Calculator"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/imgBack"
             app:layout_constraintStart_toEndOf="@+id/imgBack"
@@ -59,10 +59,10 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPatientHeight"
+                    android:id="@+id/tvDosage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Patient Height"
+                    android:text="Dosage"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -70,41 +70,15 @@
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edPatientHeight"
+                    android:id="@+id/edDosage"
                     style="@style/edittext_background"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="12dp"
-                    android:hint="Enter patient height (in inches)"
+                    android:hint="Enter dosage (mg/kg)"
                     android:inputType="numberDecimal"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPatientHeight"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDosage"
                     tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvSex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Sex"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edPatientHeight"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edSex"
-                    style="@style/edittext_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="12dp"
-                    android:clickable="true"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:hint="Enter patient sex (Male/Female)"
-                    android:inputType="text"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSex"
-                    tools:ignore="Deprecated,HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPatientWeight"
@@ -115,7 +89,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edSex"
+                    app:layout_constraintTop_toBottomOf="@+id/edDosage"
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -124,9 +98,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="12dp"
-                    android:hint="Enter patient actual weight (kg)"
+                    android:hint="Enter patient weight (kg)"
                     android:inputType="numberDecimal"
                     app:layout_constraintTop_toBottomOf="@+id/tvPatientWeight"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMedAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Med Amount"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edPatientWeight"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edMedAmount"
+                    style="@style/edittext_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Enter medication amount (mg)"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMedAmount"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPerVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Per Volume"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edMedAmount"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edPerVolume"
+                    style="@style/edittext_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Enter per volume (mL)"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPerVolume"
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -140,7 +160,7 @@
                     android:text="Calculate"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/edPatientWeight"
+                    app:layout_constraintTop_toBottomOf="@+id/edPerVolume"
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -160,18 +180,18 @@
                     tools:ignore="HardcodedText" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutBodyWeight"
+                    android:id="@+id/layoutDose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/btnClear">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvIdealBodyWeight"
+                        android:id="@+id/tvDose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:text="Ideal Body Weight"
+                        android:text="Dose"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -180,31 +200,31 @@
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvIdealBodyWeightResult"
+                        android:id="@+id/tvDoseResult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" the result BSA 20"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvIdealBodyWeight"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDose"
                         tools:ignore="HardcodedText" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutDosingWeight"
+                    android:id="@+id/layoutLiquidDose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutBodyWeight">
+                    app:layout_constraintTop_toBottomOf="@+id/layoutDose">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvDosingWeight"
+                        android:id="@+id/tvLiquidDose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Dosing Weight"
+                        android:text="Liquid Dose"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -213,14 +233,14 @@
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvDosingWeightResult"
+                        android:id="@+id/tvLiquidDoseResult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" the result BSA 20"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvDosingWeight"
+                        app:layout_constraintTop_toBottomOf="@+id/tvLiquidDose"
                         tools:ignore="HardcodedText" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,7 +248,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutDosingWeight" />
+                    app:layout_constraintTop_toBottomOf="@+id/layoutLiquidDose" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.pharmafiesta.ui.auth.AuthActivity
 import com.example.pharmafiesta.ui.chatbot.ActivityChatBot
 import com.example.pharmafiesta.ui.home.calculator.ActivityCalculators
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
@@ -48,6 +49,7 @@ import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.GorzaScreen
 import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IbtlaaScreen
 import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IgmaaScreen
 import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.NewFirstAidScreen
+import com.example.pharmafiesta.ui.home.laboratores.ActivityLaboratores
 import com.example.pharmafiesta.ui.home.medicaltest.ActivityMedicalTest
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
@@ -94,6 +96,18 @@ class BottomNavigationActivity : ComponentActivity() {
                             finish()
                             num=1
                         }
+                    }, labs = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityLaboratores::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }, logout = {
+                        userPreferences.saveUserLogin("")
+                        val intent = Intent(this, AuthActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }){
                         if(num==0) {
                             val intent = Intent(this, ActivityChatBot::class.java)
@@ -114,6 +128,8 @@ fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostC
                         baseContext: Context,
                         medicalTestAction:()->Unit,
                         medicalDoses:()->Unit,
+                        labs:()->Unit,
+                        logout:()->Unit,
                         onAction:()->Unit) {
     var selectedItemState = remember { mutableStateOf(true) }
 
@@ -138,7 +154,12 @@ fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostC
         ) {
             NavigationGraph(userPreferences,navController = navController,baseContext, medicalTestAction = {
                 medicalTestAction()
-            }, medicalDoses = {medicalDoses()}){
+            }, medicalDoses = {medicalDoses()
+            }, labs = {
+                labs()
+            }, logout = {
+                logout()
+            }){
                 onAction()
             }
         }
@@ -150,6 +171,8 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
                     baseContext: Context,
                     medicalTestAction:()->Unit,
                     medicalDoses:()->Unit,
+                    labs:()->Unit,
+                    logout:()->Unit,
                     onAction:()->Unit) {
     NavHost(
         navController,
@@ -237,7 +260,7 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             composable(
                 BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
             ) {
-
+                labs()
             }
 
             composable(
@@ -250,10 +273,12 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
         }
 
         composable(BottomNavDestinations.ProfileScreen.route) {
-            ProfileScreenUi(onSaveProfileDataClicked = {
+            ProfileScreenUi(userPreferences,onSaveProfileDataClicked = {
                 Toast.makeText(baseContext, " Saved Successfully ", Toast.LENGTH_LONG).show()
                 navController.navigateUp()
-            }, onBackClicked = { navController.navigateUp() })
+            }, onBackClicked = { navController.navigateUp() }, logout = {
+                logout()
+            })
         }
         composable(BottomNavDestinations.NotificationScreen.route) {
             NotificationScreenUi()

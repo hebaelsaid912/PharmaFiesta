@@ -10,6 +10,7 @@ class UserPreferences(private val context: Context) {
         private const val KEY_EMAIL = "email"
         private const val KEY_PHONE = "phone"
         private const val KEY_PASSWORD = "password"
+        private const val USER_LOGIN = "USER_LOGIN"
     }
 
     private val sharedPreferences: SharedPreferences =
@@ -25,6 +26,12 @@ class UserPreferences(private val context: Context) {
         editor.apply()
     }
 
+    fun saveUserLogin(isLogin:String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(USER_LOGIN, isLogin)
+        editor.apply()
+    }
+
     // Retrieve user information from SharedPreferences
     fun getUserInformation(): User {
         val username = sharedPreferences.getString(KEY_USERNAME, "") ?: ""
@@ -34,6 +41,8 @@ class UserPreferences(private val context: Context) {
 
         return User(username, email, phone, password)
     }
+    fun getUserLogin(): String = sharedPreferences.getString(USER_LOGIN, "") ?: ""
+
     fun getUserEmail(): String = sharedPreferences.getString(KEY_EMAIL, "") ?: ""
     fun getUserPassword(): String = sharedPreferences.getString(KEY_PASSWORD, "") ?: ""
 

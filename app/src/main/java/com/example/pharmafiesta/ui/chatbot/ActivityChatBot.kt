@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class ActivityChatBot : AppCompatActivity() {
     // widgets in xml file.
     private lateinit var chatsRV: RecyclerView
     private lateinit var sendMsgIB: ImageButton
+    private lateinit var imgBack: ImageView
     private lateinit var userMsgEdt: EditText
     private val USER_KEY = "user"
     private val BOT_KEY = "bot"
@@ -45,6 +47,13 @@ class ActivityChatBot : AppCompatActivity() {
         chatsRV = findViewById(R.id.idRVChats)
         sendMsgIB = findViewById(R.id.idIBSend)
         userMsgEdt = findViewById(R.id.idEdtMessage)
+        imgBack = findViewById(R.id.imgBack)
+
+        imgBack.setOnClickListener {
+            val intent = Intent(this,BottomNavigationActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         // below line is to initialize our request queue.
         mRequestQueue = Volley.newRequestQueue(this)

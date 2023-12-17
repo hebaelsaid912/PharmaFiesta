@@ -8,6 +8,8 @@ import com.example.pharmafiesta.ui.home.BottomNavigationActivity
 import com.example.pharmafiesta.ui.home.calculator.activityDoseAdjustment.ActivityDoseAdjustment
 import com.example.pharmafiesta.ui.home.calculator.activityIdealBody.ActivityIdealBody
 import com.example.pharmafiesta.ui.home.calculator.adapter.AdapterCalculator
+import com.example.pharmafiesta.ui.home.calculator.singleDose.ActivitySingleDose
+import com.example.pharmafiesta.ui.home.calculator.weightDose.ActivityWeightDose
 
 class ActivityCalculators : AppCompatActivity() {
 
@@ -25,10 +27,12 @@ class ActivityCalculators : AppCompatActivity() {
                 startActivity(intent)
             }
             2->{
-
+                val intent = Intent(this,ActivitySingleDose::class.java)
+                startActivity(intent)
             }
             3->{
-
+                val intent = Intent(this,ActivityWeightDose::class.java)
+                startActivity(intent)
             }
         }
 

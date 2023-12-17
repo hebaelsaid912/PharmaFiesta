@@ -5,15 +5,28 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCalc"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCalc"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:padding="10dp"
-        android:text="mamdouh"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="120dp"
+        app:cardBackgroundColor="@color/color_offWhite"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCalc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="mamdouh"
+            android:textAlignment="center"
+            android:textColor="@color/teal_200"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
