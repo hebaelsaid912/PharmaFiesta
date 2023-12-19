@@ -1,11 +1,13 @@
 package com.example.pharmafiesta.ui.home
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,6 +65,7 @@ import com.example.pharmafiesta.utils.webViewCompose.webViewRoute
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 private const val TAG = "BottomNavigationActivity"
 
 @AndroidEntryPoint
@@ -104,10 +107,25 @@ class BottomNavigationActivity : ComponentActivity() {
                             num=1
                         }
                     }, logout = {
-                        userPreferences.saveUserLogin("")
-                        val intent = Intent(this, AuthActivity::class.java)
-                        startActivity(intent)
-                        finish()
+
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                        builder.setMessage("هل تريد تسجيل الخروج ؟")
+                        builder.setTitle("تسجيل خروج !")
+                        builder.setCancelable(false)
+                        builder.setPositiveButton("نعم",
+                            DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                                userPreferences.saveUserLogin("")
+                                val intent = Intent(this, AuthActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            })
+                        builder.setNegativeButton("لا",
+                            DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
+                                dialog.cancel()
+                            })
+                        val alertDialog: AlertDialog = builder.create()
+                       alertDialog.show()
+
                     }){
                         if(num==0) {
                             val intent = Intent(this, ActivityChatBot::class.java)

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PharmaFiesta</string>
+    <string name="app_name">MedGuide</string>
     <string name="get_started_btn">Get Started</string>
     <string name="signup_btn">Sign up</string>
     <string name="username_text_field_placeholder">username</string>
