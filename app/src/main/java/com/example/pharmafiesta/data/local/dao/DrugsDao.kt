@@ -15,6 +15,9 @@ interface DrugsDao {
     @Query("SELECT * FROM drug WHERE tradename LIKE '%' || :searchTerm || '%'")
    suspend fun searchDrugsByTradeName(searchTerm: String): List<Drug>
 
+    @Query("SELECT * FROM drug WHERE `group` LIKE '%' || :searchTerm || '%'")
+    suspend fun searchDrugsBygroup(searchTerm: String): List<Drug>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg drug: Drug)
 

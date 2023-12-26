@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.pharmafiesta.data.local.model.Drug
 import com.example.pharmafiesta.data.local.dao.DrugsDao
 
-@Database(entities = [Drug::class], version = 1)
+@Database(entities = [Drug::class], version = 1 , exportSchema = false)
 abstract class DrugsDatabase : RoomDatabase() {
     abstract fun drugsDao(): DrugsDao
 }

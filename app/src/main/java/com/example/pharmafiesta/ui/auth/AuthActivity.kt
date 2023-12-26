@@ -19,13 +19,18 @@ import com.example.pharmafiesta.ui.auth.signup.SignupScreenUi
 import com.example.pharmafiesta.ui.home.BottomNavigationActivity
 import com.example.pharmafiesta.ui.splash.SplashScreenUi
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
+import com.example.pharmafiesta.utils.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 private const val TAG = "AuthActivity"
 
 @AndroidEntryPoint
 class AuthActivity  : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferences : UserPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,9 +40,14 @@ class AuthActivity  : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupAppRouteNavigation(){ message , isLoggedInSuccess ->
+                    SetupAppRouteNavigation(userPreferences, loginSuccess = {
+                        userPreferences.saveUserLogin("true")
+                        startActivity(Intent(this, BottomNavigationActivity::class.java))
+                        this.finish()
+                    }){ message , isLoggedInSuccess ->
                         Toast.makeText(this,message, Toast.LENGTH_LONG).show()
                         if(isLoggedInSuccess) {
+                            userPreferences.saveUserLogin("true")
                             startActivity(Intent(this, BottomNavigationActivity::class.java))
                             this.finish()
                         }
@@ -49,7 +59,7 @@ class AuthActivity  : ComponentActivity() {
 }
 
 @Composable
-private fun SetupAppRouteNavigation(onSignInButtonClicked: (String,Boolean) -> Unit) {
+private fun SetupAppRouteNavigation(userPreferences: UserPreferences,loginSuccess: () -> Unit,onSignInButtonClicked: (String,Boolean) -> Unit) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -57,7 +67,9 @@ private fun SetupAppRouteNavigation(onSignInButtonClicked: (String,Boolean) -> U
     ) {
         composable(route = AuthScreensRoutes.SplashScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SplashScreen")
-            SplashScreenUi(navController = navController)
+            SplashScreenUi(navController = navController,userPreferences){
+                loginSuccess()
+            }
         }
         composable(route = AuthScreensRoutes.SplashScreenRoute.route + "/" + AuthScreensRoutes.SignupScreenRoute.route) {
             Log.d(TAG, "SetupAppRouteNavigation: SignupScreen")

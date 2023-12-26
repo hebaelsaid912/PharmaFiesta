@@ -1,10 +1,13 @@
 package com.example.pharmafiesta.ui.home
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,11 +38,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.pharmafiesta.ui.home.billsscreen.BillsScreenUi
+import com.example.pharmafiesta.ui.auth.AuthActivity
+import com.example.pharmafiesta.ui.chatbot.ActivityChatBot
+import com.example.pharmafiesta.ui.home.calculator.ActivityCalculators
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
+import com.example.pharmafiesta.ui.home.homescreen.druginfo.drugInfoRoute
+import com.example.pharmafiesta.ui.home.homescreen.druginteraction.DrugInterActionScreen
 import com.example.pharmafiesta.ui.home.homescreen.drugsearch.DrugSearchScreenUi
-import com.example.pharmafiesta.ui.home.homescreen.firstaid.FirstAidScreenUi
+import com.example.pharmafiesta.ui.home.homescreen.firstaid.InstructionsScreenUI
+import com.example.pharmafiesta.ui.home.homescreen.firstaid.SwallowTheTongueScreenUI
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.GorzaScreen
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IbtlaaScreen
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.IgmaaScreen
+import com.example.pharmafiesta.ui.home.homescreen.newfirstaid.NewFirstAidScreen
+import com.example.pharmafiesta.ui.home.laboratores.ActivityLaboratores
+import com.example.pharmafiesta.ui.home.medicaltest.ActivityMedicalTest
 import com.example.pharmafiesta.ui.home.notificationscreen.NotificationScreenUi
 import com.example.pharmafiesta.ui.home.profilescreen.ProfileScreenUi
 import com.example.pharmafiesta.ui.theme.Green59
@@ -47,12 +61,21 @@ import com.example.pharmafiesta.ui.theme.LightGray
 import com.example.pharmafiesta.ui.theme.MintGreen98
 import com.example.pharmafiesta.ui.theme.PharmaFiestaTheme
 import com.example.pharmafiesta.ui.theme.White
+import com.example.pharmafiesta.utils.UserPreferences
+import com.example.pharmafiesta.utils.webViewCompose.webViewRoute
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 private const val TAG = "BottomNavigationActivity"
 
 @AndroidEntryPoint
 class BottomNavigationActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
+    var num = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,7 +86,55 @@ class BottomNavigationActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController: NavHostController = rememberNavController()
-                    BottomNavigationBar(navController = navController,baseContext)
+                    BottomNavigationBar(userPreferences,navController = navController,baseContext, medicalTestAction = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityMedicalTest::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }, medicalDoses = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityCalculators::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }, labs = {
+                        if(num==0) {
+                            val intent = Intent(this, ActivityLaboratores::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }, logout = {
+
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                        builder.setMessage("هل تريد تسجيل الخروج ؟")
+                        builder.setTitle("تسجيل خروج !")
+                        builder.setCancelable(false)
+                        builder.setPositiveButton("نعم",
+                            DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                                userPreferences.saveUserLogin("")
+                                val intent = Intent(this, AuthActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            })
+                        builder.setNegativeButton("لا",
+                            DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
+                                dialog.cancel()
+                            })
+                        val alertDialog: AlertDialog = builder.create()
+                       alertDialog.show()
+
+                    }){
+                        if(num==0) {
+                            val intent = Intent(this, ActivityChatBot::class.java)
+                            startActivity(intent)
+                            finish()
+                            num=1
+                        }
+                    }
                 }
             }
         }
@@ -72,7 +143,13 @@ class BottomNavigationActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar(navController: NavHostController, baseContext: Context) {
+fun BottomNavigationBar(userPreferences: UserPreferences,navController: NavHostController,
+                        baseContext: Context,
+                        medicalTestAction:()->Unit,
+                        medicalDoses:()->Unit,
+                        labs:()->Unit,
+                        logout:()->Unit,
+                        onAction:()->Unit) {
     var selectedItemState = remember { mutableStateOf(true) }
 
     Scaffold(
@@ -94,70 +171,139 @@ fun BottomNavigationBar(navController: NavHostController, baseContext: Context) 
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            NavigationGraph(navController = navController,baseContext)
+            NavigationGraph(userPreferences,navController = navController,baseContext, medicalTestAction = {
+                medicalTestAction()
+            }, medicalDoses = {medicalDoses()
+            }, labs = {
+                labs()
+            }, logout = {
+                logout()
+            }){
+                onAction()
+            }
         }
     }
 }
 
 @Composable
-fun NavigationGraph(navController: NavHostController, baseContext: Context) {
+fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostController,
+                    baseContext: Context,
+                    medicalTestAction:()->Unit,
+                    medicalDoses:()->Unit,
+                    labs:()->Unit,
+                    logout:()->Unit,
+                    onAction:()->Unit) {
     NavHost(
         navController,
         startDestination = BottomNavDestinations.BaseHomeScreen.route
     ) {
         composable(BottomNavDestinations.BaseHomeScreen.route) {
-            HomeScreenUi(navController)
+            HomeScreenUi(navController,userPreferences)
         }
         navigation(
             startDestination = BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route,
             route = BottomNavDestinations.BaseHomeScreen.route
         ) {
             composable(BottomNavDestinations.BaseHomeScreen.HomeScreenRoute.route) {
-                HomeScreenUi(navController)
+                HomeScreenUi(navController,userPreferences)
             }
             composable(
                 BottomNavDestinations.BaseHomeScreen.DrugSearchScreenRoute.route
             ) {
-                DrugSearchScreenUi()
+                DrugSearchScreenUi(navController)
             }
+
+            drugInfoRoute(navController)
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
+            ) {
+                medicalTestAction()
+            }
+            composable(
+                BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
+            ) {
+                DrugInterActionScreen(navController)
+            }
+
+
+
+            //region new
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.NewFirstAidRoute.route
+            ) {
+                NewFirstAidScreen(navController,userPreferences)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.SHARAQANRoute.route
+            ) {
+                InstructionsScreenUI (navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.BALEELESANRoute.route
+            ) {
+                SwallowTheTongueScreenUI (navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.IGMAARoute.route
+            ) {
+                IgmaaScreen(navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.IBTLAARoute.route
+            ) {
+                IbtlaaScreen(navController)
+            }
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.GORAZRoute.route
+            ) {
+                GorzaScreen(navController)
+            }
+
+            webViewRoute(BottomNavDestinations.BaseHomeScreen.WebViewScreen.route,navController)
+
+            //endregion
+
+
+
+
+
+
+
+            composable(
+                BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
+            ) {
+                labs()
+            }
+
             composable(
                 BottomNavDestinations.BaseHomeScreen.MedicinalDosesScreenRoute.route
             ) {
+                medicalDoses()
+            }
 
-            }
-            composable(
-                 BottomNavDestinations.BaseHomeScreen.MedicalTestScreenRoute.route
-            ) {
 
-            }
-            composable(
-                 BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
-            ) {
-
-            }
-            composable(
-                 BottomNavDestinations.BaseHomeScreen.FirstAidScreenRoute.route
-            ) {
-                FirstAidScreenUi(onBackClicked = { navController.navigateUp() })
-            }
-            composable(
-                 BottomNavDestinations.BaseHomeScreen.LaboratoryScreenRoute.route
-            ) {
-
-            }
         }
 
         composable(BottomNavDestinations.ProfileScreen.route) {
-            ProfileScreenUi(onSaveProfileDataClicked = {
+            ProfileScreenUi(userPreferences,onSaveProfileDataClicked = {
                 Toast.makeText(baseContext, " Saved Successfully ", Toast.LENGTH_LONG).show()
                 navController.navigateUp()
-            }, onBackClicked = { navController.navigateUp() })
+            }, onBackClicked = { navController.navigateUp() }, logout = {
+                logout()
+            })
         }
         composable(BottomNavDestinations.NotificationScreen.route) {
             NotificationScreenUi()
         }
         composable(BottomNavDestinations.BillsScreen.route) {
-            BillsScreenUi()
+            onAction()
         }
         composable(BottomNavDestinations.ChatScreen.route) {
             ChatScreenUi()

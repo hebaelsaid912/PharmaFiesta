@@ -42,4 +42,5 @@ class SignInViewModel @Inject constructor(private val userPreferences : UserPref
         passwordState.value.isEmpty() || passwordState.value.length < 8
 
     private fun checkEmailValidation(): Boolean = emailState.value.isEmpty()
+
 }
