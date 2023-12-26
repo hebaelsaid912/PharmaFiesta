@@ -44,6 +44,7 @@ import com.example.pharmafiesta.ui.home.calculator.ActivityCalculators
 import com.example.pharmafiesta.ui.home.chatscreen.ChatScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.HomeScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.druginfo.drugInfoRoute
+import com.example.pharmafiesta.ui.home.homescreen.druginteraction.DrugInterActionScreen
 import com.example.pharmafiesta.ui.home.homescreen.drugsearch.DrugSearchScreenUi
 import com.example.pharmafiesta.ui.home.homescreen.firstaid.InstructionsScreenUI
 import com.example.pharmafiesta.ui.home.homescreen.firstaid.SwallowTheTongueScreenUI
@@ -222,7 +223,7 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             composable(
                 BottomNavDestinations.BaseHomeScreen.DrugInteractionsScreenRoute.route
             ) {
-
+                DrugInterActionScreen(navController)
             }
 
 

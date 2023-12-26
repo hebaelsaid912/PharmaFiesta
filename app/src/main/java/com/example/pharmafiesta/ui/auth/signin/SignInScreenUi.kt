@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -103,33 +104,37 @@ fun SignInScreenUi (viewModel: SignInViewModel = hiltViewModel(), onSignInButton
                 }
             }
         }
-        item {
-            Text(
-                text = stringResource(id = R.string.sign_in_with),
-                color = Black,
-                fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                fontSize = 16.sp
-            )
-        }
-        item {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                IconButton(onClick = {  }) {
-                    Icon(
-                        painter = painterResource(id =  R.drawable.facebook),
-                        contentDescription = "",
-                        tint = Color.Unspecified
-                    )
-                }
-                IconButton(onClick = {  }) {
-                    Icon(
-                        painter = painterResource(id =  R.drawable.google),
-                        contentDescription = "",
-                        tint = Color.Unspecified
-                    )
-                }
 
-            }
+        item {
+            Spacer(modifier = Modifier.height(30.dp))
         }
+//        item {
+//            Text(
+//                text = stringResource(id = R.string.sign_in_with),
+//                color = Black,
+//                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+//                fontSize = 16.sp
+//            )
+//        }
+//        item {
+//            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+//                IconButton(onClick = {  }) {
+//                    Icon(
+//                        painter = painterResource(id =  R.drawable.facebook),
+//                        contentDescription = "",
+//                        tint = Color.Unspecified
+//                    )
+//                }
+//                IconButton(onClick = {  }) {
+//                    Icon(
+//                        painter = painterResource(id =  R.drawable.google),
+//                        contentDescription = "",
+//                        tint = Color.Unspecified
+//                    )
+//                }
+//
+//            }
+//        }
     }
 }
 
