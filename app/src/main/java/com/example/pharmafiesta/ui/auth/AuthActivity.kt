@@ -1,16 +1,22 @@
 package com.example.pharmafiesta.ui.auth
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -31,7 +37,18 @@ class AuthActivity  : ComponentActivity() {
 
     @Inject
     lateinit var userPreferences : UserPreferences
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+        askNotificationPermission()
         super.onCreate(savedInstanceState)
         setContent {
             PharmaFiestaTheme {
@@ -55,6 +72,38 @@ class AuthActivity  : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showNotificationPermissionDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+    private fun showNotificationPermissionDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("Notification Permission")
+        alertDialogBuilder.setMessage("Granting notification permission. Would you like to proceed?")
+        alertDialogBuilder.setCancelable(true)
+        alertDialogBuilder.setPositiveButton("OK") { _, _ ->
+            // Request notification permission
+            askNotificationPermission()
+        }
+
+        alertDialogBuilder.setNegativeButton("No thanks") { _, _ ->
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 }
 
