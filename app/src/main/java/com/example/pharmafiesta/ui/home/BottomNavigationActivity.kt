@@ -300,7 +300,7 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             })
         }
         composable(BottomNavDestinations.NotificationScreen.route) {
-            NotificationScreenUi()
+            NotificationScreenUi(navController = navController)
         }
         composable(BottomNavDestinations.BillsScreen.route) {
             onAction()
