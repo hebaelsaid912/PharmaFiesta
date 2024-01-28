@@ -67,7 +67,8 @@ fun DrugInterActionScreen (navController: NavController, viewModel: DrugInterAct
             )
 
             Text( modifier = Modifier
-                .padding(top = 30.dp, start = 10.dp),text = "Drug InterAction",
+                .padding(top = 30.dp, start = 10.dp),
+                text = "Cure Finder",
                 color = Color.Black,
                 fontSize = 16.sp)
         }

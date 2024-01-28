@@ -306,7 +306,7 @@ fun NavigationGraph(userPreferences: UserPreferences,navController: NavHostContr
             onAction()
         }
         composable(BottomNavDestinations.ChatScreen.route) {
-            ChatScreenUi()
+            ChatScreenUi(navController)
         }
     }
 }
